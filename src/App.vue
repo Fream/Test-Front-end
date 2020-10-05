@@ -1,28 +1,24 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <b-navbar toggleable="lg" type="dark" variant="info">
+      <b-navbar-nav>
+        <b-nav-item to="/home" exact exact-active-class="active">Главная</b-nav-item>
+        <b-nav-item to="/vacuum-vessel" exact exact-active-class="active">Ваккуматоры</b-nav-item>
+        <b-nav-item to="/dosage-meter" exact exact-active-class="active">Дозаторы</b-nav-item>
+        <b-nav-item to="/purchase-returns" exact exact-active-class="active">Условия возврата</b-nav-item>
+        <b-nav-item to="/payment" exact exact-active-class="active">Условия оплаты</b-nav-item>
+      </b-navbar-nav>
+    </b-navbar>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+  name: 'App'
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped>
 </style>

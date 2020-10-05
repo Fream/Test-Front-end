@@ -9,7 +9,11 @@
         <b-nav-item to="/payment" exact exact-active-class="active">Условия оплаты</b-nav-item>
       </b-navbar-nav>
     </b-navbar>
-    <router-view></router-view>
+    <b-container>
+      <transition name="fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
+    </b-container>
   </div>
 </template>
 
@@ -20,5 +24,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0
+}
 </style>

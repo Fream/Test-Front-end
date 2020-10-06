@@ -55,7 +55,7 @@ const getters = {
   getLazy: (state) => (product) => {
     return state.items[product].map(item => {
       return {
-        image: 'https://dev.alcotec.com.ua/' + item.img,
+        image: item.img,
         name: item.title,
         availability: item.availability['ru'],
         price: item.priceUAH

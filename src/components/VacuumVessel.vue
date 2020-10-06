@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>Ваккуматоры</h1>
-    <b-table hover :items="vacuumVessels" :fields="fields">
+    <b-table ref="tableVacuumVessels" hover :items="vacuumVessels(sorting)" :fields="fields" @head-clicked="sort">
       <template v-slot:cell(image)="data">
         <img :src="data.value" class="img-size">
       </template>
@@ -19,10 +19,12 @@ export default {
   name: 'VacuumVessel',
   data() {
     return {
+      sorting: null,
       fields: [
         {
           key: 'image',
           label: 'Изображение',
+          'v-click': 'test'
         },
         {
           key: 'name',
@@ -44,7 +46,25 @@ export default {
   },
   computed: mapGetters('vacuumVessels', {
     vacuumVessels: 'getVacuumVessels'
-  })
+  }),
+  methods: {
+
+    // Instead of creating a simle table (like <b-table-simple>) and define all columns and rows manualy
+    // we could just use <b-table> component from bootstrap-vue
+    // Advantages :
+    // - no need to define rows, we could just specify our entities to display (array of objects to display)
+    // - no need to define stucture or headers of the table, we use only data.fields to describe columns
+    // Disadvantages:
+    // - sometimes b-table component is not refreshed when the items (rows) of this table are computed, need manual refresh by $refs.table.refresh()
+
+    sort(key) {
+      if (key == 'price') {
+        this.sorting = !this.sorting;
+        this.vacuumVessels(this.sorting);
+        this.$refs.tableVacuumVessels.refresh();
+      }
+    }
+  }
 }
 </script>
 

@@ -5,7 +5,10 @@ const state = () => ({
 });
 
 const getters = {
-  getVacuumVessels: (state) => {
+  getVacuumVessels: (state, getters) => (sortingAsc) => {
+    if (sortingAsc === null) {
+      return getters.getVacuumVesselsLazy;
+    }
 
     // Sorting
     // Could be implemanted by :
@@ -14,9 +17,35 @@ const getters = {
     // bootstrap-table sort
 
     let length = state.items.length;
-    console.log(length);
+    let items = getters.getVacuumVesselsLazy;
 
-    let items = state.items.map(item => {
+    if (sortingAsc == true) {
+      for (let i = length-1; i >= 0; i--) {
+        for (let j = 1; j <= i; j++) {
+          if (items[j-1].price > items[j].price) {
+            let aux = items[j-1];
+            items[j-1] = items[j];
+            items[j] = aux;
+          }
+        }
+      }
+    } else {
+      for (let i = length-1; i >= 0; i--) {
+        for (let j = 1; j <= i; j++) {
+          if (items[j-1].price < items[j].price) {
+            let aux = items[j-1];
+            items[j-1] = items[j];
+            items[j] = aux;
+          }
+        }
+      }
+    }
+
+    return items;
+  },
+
+  getVacuumVesselsLazy: (state) => {
+    return state.items.map(item => {
       return {
         image: 'https://dev.alcotec.com.ua/' + item.img,
         name: item.title,
@@ -24,22 +53,6 @@ const getters = {
         price: item.priceUAH
       };
     });
-
-    console.log(items);
-
-    for (let i = length-1; i >= 0; i--) {
-      for (let j = 1; j <= i; j++) {
-        if (items[j-1].price < items[j].price) {
-          let aux = items[j-1];
-          items[j-1] = items[j];
-          items[j] = aux;
-        }
-      }
-    }
-
-    console.log(items);
-
-    return items;
   }
 };
 

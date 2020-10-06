@@ -55,7 +55,7 @@ export default {
     // - no need to define rows, we could just specify our entities to display (array of objects to display)
     // - no need to define stucture or headers of the table, we use only data.fields to describe columns
     // Disadvantages:
-    // - sometimes b-table component is not refreshed when the items (rows) of this table are computed, need manual refresh by $refs.table.refresh()
+    // - sometimes b-table component is not refreshed when the items (rows) of this table are computed and updated after, need manual refresh by $refs.table.refresh()
 
     sort(key) {
       if (key == 'price') {

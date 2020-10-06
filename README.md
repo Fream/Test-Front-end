@@ -1,4 +1,4 @@
-# hello-world
+# Test task
 
 ## Project setup
 ```

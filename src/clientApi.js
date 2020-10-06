@@ -1,9 +1,19 @@
 export default {
-  getVacuumVessels() {
-    return this.sendRequest('https://dev.alcotec.com.ua/api/products/322', 'GET');
-  },
+  getProducts(type) {
+    let id = null;
 
-  getDosageMeter() {
+    switch(type) {
+      case 'dosageMeters':
+        id = 103;
+        break;
+      case 'vacuumVessels':
+        id = 322;
+        break;
+      default:
+        throw new Error(`Type ${type} of products is not supported`)
+    }
+    
+    return this.sendRequest(`https://dev.alcotec.com.ua/api/products/${id}`, 'GET')
   },
 
   getPurchaseReturnsPage() {

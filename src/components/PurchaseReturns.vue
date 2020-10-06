@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Условия возврата</h1>
+    <h1>{{ header }}</h1>
     <div v-html="content"></div>
   </div>
 </template>
@@ -12,11 +12,13 @@ export default {
   name: 'PurchaseReturns',
   data() {
     return {
+      header: '',
       content: ''
     }
   },
   beforeCreate() {
     clientApi.getPurchaseReturnsPage().then((data) => {
+      this.header = data.name['ru'];
       this.content = data.content['ru'];
     });
   }

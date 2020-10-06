@@ -1,23 +1,31 @@
-import clientApi from './../../clientApi';
+import clientApi from '../../clientApi';
 
 const state = () => ({
-  items: []
+  items: {
+    dosageMeters: [],
+    vacuumVessels: []
+  }
 });
 
 const getters = {
-  getVacuumVessels: (state, getters) => (sortingAsc) => {
+  // To options possible here:
+  // 1) We could make sorting by action -> mutation and save new state with sorted items
+  // 2) We could use getters to get sorted items from state, in this case we don't need any mutations of the state
+  // NOTE: for this testing task first option has beeen selected. Only the data from requests should be stored in the state
+
+  get: (state, getters) => (product, sortingAsc) => {
     if (sortingAsc === null) {
-      return getters.getVacuumVesselsLazy;
+      return getters.getLazy(product);
     }
 
-    // Sorting
+    // Sorting Bubble
     // Could be implemanted by :
     // javascript .sort()
     // API (back-end)
     // bootstrap-table sort
 
-    let length = state.items.length;
-    let items = getters.getVacuumVesselsLazy;
+    let items = getters.getLazy(product);
+    let length = items.length;
 
     if (sortingAsc == true) {
       for (let i = length-1; i >= 0; i--) {
@@ -44,8 +52,8 @@ const getters = {
     return items;
   },
 
-  getVacuumVesselsLazy: (state) => {
-    return state.items.map(item => {
+  getLazy: (state) => (product) => {
+    return state.items[product].map(item => {
       return {
         image: 'https://dev.alcotec.com.ua/' + item.img,
         name: item.title,
@@ -57,16 +65,18 @@ const getters = {
 };
 
 const actions = {
-  getAll({ commit }) {
-    clientApi.getVacuumVessels().then(items => {
-      commit('setVacuumVessels', items.products);
-    })
+  getProducts({ commit }, type) {
+    clientApi.getProducts(type).then(items => {
+      let payload = {type, items };
+
+      commit('setProducts', payload);
+    });
   }
 };
 
 const mutations = {
-  setVacuumVessels(state, items) {
-    state.items = items;
+  setProducts(state, payload) {
+    state.items[payload.type] = payload.items.products;
   }
 };
 

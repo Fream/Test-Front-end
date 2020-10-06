@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>Ваккуматоры</h1>
-    <b-table ref="tableVacuumVessels" hover :items="vacuumVessels(sorting)" :fields="fields" @head-clicked="sort">
+    <b-table ref="tableVacuumVessels" hover :items="products('vacuumVessels', sorting)" :fields="fields" @head-clicked="sort">
       <template v-slot:cell(image)="data">
         <img :src="data.value" class="img-size">
       </template>
@@ -42,10 +42,10 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('vacuumVessels/getAll');
+    this.$store.dispatch('products/getProducts', 'vacuumVessels');
   },
-  computed: mapGetters('vacuumVessels', {
-    vacuumVessels: 'getVacuumVessels'
+  computed: mapGetters('products', {
+    products: 'get'
   }),
   methods: {
 
@@ -60,7 +60,7 @@ export default {
     sort(key) {
       if (key == 'price') {
         this.sorting = !this.sorting;
-        this.vacuumVessels(this.sorting);
+        this.products('vacuumVessels', this.sorting);
         this.$refs.tableVacuumVessels.refresh();
       }
     }
